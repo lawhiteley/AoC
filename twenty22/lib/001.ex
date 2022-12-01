@@ -10,7 +10,7 @@ defmodule Day001 do
     List.first(sorted_by_calories(inventory))
   end
 
-  def top_n_by_calories(inventory, n \\ 3) do
+  def total_of_top_n_by_calories(inventory, n \\ 3) do
     sorted_by_calories(inventory) |> Enum.take(n) |> Enum.sum()
   end
 end
