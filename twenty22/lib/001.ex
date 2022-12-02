@@ -1,9 +1,9 @@
 defmodule Day001 do
 
-  defp sorted_by_calories(inventory, sort \\ :desc) do
+  defp sorted_by_calories(inventory, order \\ :desc) do
     inventory
     |> Enum.chunk_by(&(&1 !== "")) |> Enum.reject(&(&1 == [""]))
-    |> Enum.map(&Enum.sum/1) |> Enum.sort(sort)
+    |> Enum.map(&Enum.sum/1) |> Enum.sort(order)
   end
 
   def most_calories(inventory) do
