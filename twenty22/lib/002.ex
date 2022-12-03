@@ -2,7 +2,7 @@ defmodule Day002 do
 
   # YOLO
 
-  def calculate_score(rounds) do
+  def part_one(rounds) do
     rounds |> Enum.map(fn x ->
       case String.split(x, " ") do
         [ "A", "X" ] -> 1 + 3
