@@ -13,6 +13,6 @@ defmodule Day003Test do
   end
 
   test "day 3 puzzle 2" do
-    assert Day003.find_badges(@data) == 15
+    assert Day003.score_of_badges(@data) == 2798
   end
 end

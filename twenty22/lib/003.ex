@@ -2,14 +2,14 @@ defmodule Day003 do
 
   def in_both_compartments_score(rucksacks) do
     rucksacks |> Enum.map(fn r ->
-      common = find_common_items(get_compartments(r) |> Enum.map(&String.to_charlist/1))
+      common = find_common_items(get_compartments(r))
       score_item(common)
     end) |> Enum.sum()
   end
 
-  def find_badges(rucksacks, group_size \\ 3) do
+  def score_of_badges(rucksacks) do
     rucksacks
-    |> Enum.chunk_every(group_size)
+    |> Enum.chunk_every(3)
     |> Enum.map(&find_badge/1)
     |> Enum.map(&score_item/1)
     |> Enum.sum()
@@ -21,7 +21,7 @@ defmodule Day003 do
   end
 
   defp find_common_items(compartments) do
-    [first, second] = compartments
+    [first, second] = compartments |> Enum.map(&String.to_charlist/1)
     List.to_string(Enum.uniq(first -- (first -- second)))
   end
 
