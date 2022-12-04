@@ -30,7 +30,7 @@ defmodule Day003 do
     List.to_string(Enum.uniq(third -- (third -- (first -- (first -- second)))))
   end
 
-  defp score_item(<<item::utf8, _::binary>>) when item <= ?z and item >= ?a, do: item - ?a + 1
-  defp score_item(<<item::utf8, _::binary>>) when item <= ?Z and item >= ?A, do: item - ?A + 27
+  defp score_item(<<item::utf8, _::binary>>) when item >= ?a and item <= ?z, do: item - ?a + 1
+  defp score_item(<<item::utf8, _::binary>>) when item >= ?A and item <= ?Z, do: item - ?A + 27
   defp score_item(_), do: :error
 end
