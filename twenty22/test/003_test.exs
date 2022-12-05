@@ -1,5 +1,5 @@
 defmodule Day003Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   @data TestHelper.file_to_strings("./test/data/003.txt")
   @example TestHelper.file_to_strings("./test/data/003-example.txt")

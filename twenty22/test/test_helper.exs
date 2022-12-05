@@ -9,8 +9,13 @@ defmodule TestHelper do
     end)
   end
 
-  def file_to_strings(file_path) do
-    File.stream!(file_path) |> Enum.map(&String.trim/1)
+  def file_to_strings(file_path, trim_mode \\ :full) do
+    contents = File.stream!(file_path)
+
+    case trim_mode do
+      :trailing -> contents |> Enum.map(&String.trim_trailing/1)
+      _ -> contents |> Enum.map(&String.trim/1)
+    end
   end
 end
 
