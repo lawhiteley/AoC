@@ -2,7 +2,7 @@ defmodule Day005 do
 
   def top_crates(manifest, crane_mode \\ :reverse) do
     process_manifest(manifest, crane_mode)
-    |> Enum.map(fn {_, v} -> List.first(v) end)
+    |> Enum.map(fn {_, stack} -> List.first(stack) end)
     |> Enum.join()
   end
 
@@ -11,12 +11,12 @@ defmodule Day005 do
     {columns, stacks} = List.pop_at(diagram, length(diagram) - 1)
 
     Enum.reduce(instructions |> Enum.map(&parse_instruction/1), parse_stacks(columns, stacks), fn i, acc ->
-      [x, from, to] = i
+      [amount, from, to] = i
       Map.merge(acc, %{
-        from => Enum.slice(acc[from], x, length(acc[from])),
+        from => Enum.slice(acc[from], amount, length(acc[from])),
         to => case crane_mode do
-          :reverse -> Enum.reverse(Enum.take(acc[from], x)) ++ acc[to]
-          _ -> Enum.take(acc[from], x) ++ acc[to]
+          :reverse -> Enum.reverse(Enum.take(acc[from], amount)) ++ acc[to]
+          _ -> Enum.take(acc[from], amount) ++ acc[to]
         end
         })
     end)
@@ -26,8 +26,8 @@ defmodule Day005 do
     Enum.reduce(String.split(columns), %{}, fn c, acc ->
       column = String.to_integer(c)
 
-      Map.put(acc, column, Enum.map(stacks, fn s ->
-         String.at(s, column + (column - 1) * 3) end) |> Enum.reject(&(&1 == " " or &1 == nil))
+      Map.put(acc, column, Enum.map(stacks, fn row ->
+         String.at(row, column + (column - 1) * 3) end) |> Enum.reject(&(&1 == " " or &1 == nil))
       )
     end)
   end
