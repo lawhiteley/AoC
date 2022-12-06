@@ -9,6 +9,11 @@ defmodule TestHelper do
     end)
   end
 
+  def file_to_string(file_path) do
+    {_, contents} = File.read(file_path)
+    contents
+  end
+
   def file_to_strings(file_path, trim_mode \\ :full) do
     contents = File.stream!(file_path)
 
