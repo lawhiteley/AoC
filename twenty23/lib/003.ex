@@ -13,18 +13,18 @@ defmodule Day003 do
     |> Enum.map(fn {_, adjacent_to} -> if length(adjacent_to) == 2 do Enum.product(adjacent_to) else 0 end end) |> Enum.sum()
   end
 
-  defp generate_adjacency_map(neighbourhood, rows, matches) do
-    neighbourhood
-    |> Enum.map(&search(&1, rows, matches))
-    |> List.flatten() |> Enum.reduce(&Map.merge(&1, &2, fn _, v1, v2 -> v1 ++ v2 end))
-  end
-
   defp generate_neighbourhood({index, row}) do
     Regex.scan(~r/\d+/, row, return: :index)
     |> Enum.map(fn [{start, length}] ->
       part_number = String.slice(row, start, length)
       {index, part_number, (start - 1)..(start + length) |> Enum.filter(fn column -> column >= 0 and column <= String.length(row) end)}
     end)
+  end
+
+  defp generate_adjacency_map(neighbourhood, rows, matches) do
+    neighbourhood
+    |> Enum.map(&search(&1, rows, matches))
+    |> List.flatten() |> Enum.reduce(&Map.merge(&1, &2, fn _, v1, v2 -> v1 ++ v2 end))
   end
 
   defp search(searches, rows, matches) do
