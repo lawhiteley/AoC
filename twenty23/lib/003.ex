@@ -32,10 +32,14 @@ defmodule Day003 do
     |> Enum.map(fn {index, part_number, range} ->
        Enum.to_list((index - 1)..(index + 1)) |> Enum.map(fn i ->
         part_number = String.to_integer(part_number)
-        find_adjacent(Map.get(rows, i), Range.new(List.first(range), List.last(range)))
-        |> Enum.map(&Map.update(matches, {i, &1}, [part_number], fn results -> results ++ part_number end))
+        add_part_number(part_number, range, i, rows, matches)
       end)
     end)
+  end
+
+  defp add_part_number(part_number, range, row, rows, matches) do
+    find_adjacent(Map.get(rows, row), Range.new(List.first(range), List.last(range)))
+    |> Enum.map(&Map.update(matches, {row, &1}, [part_number], fn results -> results ++ part_number end))
   end
 
   defp find_adjacent(nil, _) do [] end

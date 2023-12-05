@@ -1,21 +1,8 @@
-# Twenty23
+# Advent of Code 2023
+[Advent of Code 2023](https://adventofcode.com/2023) solutions in [Elixir](https://elixir-lang.org).
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `twenty23` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:twenty23, "~> 0.1.0"}
-  ]
-end
+## Execution:
+Solutions are encoded as test assertions. The suite can be run with the following:
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/twenty23>.
-
+mix test
+```
