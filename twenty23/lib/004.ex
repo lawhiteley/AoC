@@ -33,7 +33,7 @@ defmodule Day004 do
     MapSet.intersection(winners, numbers) |> Enum.to_list()
   end
 
-  def calculate_score(winners) when length(winners) <= 0 do 0 end
-  def calculate_score(winners) when length(winners) == 1 do 1 end
-  def calculate_score(winners) do trunc(:math.pow(2, length(winners) - 1)) end
+  defp calculate_score(winners) when length(winners) <= 0 do 0 end
+  defp calculate_score(winners) when length(winners) == 1 do 1 end
+  defp calculate_score(winners) do trunc(:math.pow(2, length(winners) - 1)) end
 end
