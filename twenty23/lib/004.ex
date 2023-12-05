@@ -15,14 +15,14 @@ defmodule Day004 do
         copies = Map.get(acc, card)
         number_of_winners = length(score_card(List.first(copies)))
         if number_of_winners > 0 do
-          update_cards(card, number_of_winners, length(copies), acc)
+          update_downstream_cards(card, number_of_winners, length(copies), acc)
         else
           acc
         end
       end) |> Map.values() |> List.flatten() |> length()
   end
 
-  defp update_cards(card, number_of_winners, copies, map) do
+  defp update_downstream_cards(card, number_of_winners, copies, map) do
     (card + 1)..(card + number_of_winners) |> Enum.reduce(map, fn i, map ->
       Map.update(map, i, copies, fn existing -> existing ++ List.duplicate(List.first(existing), copies) end)
     end)
