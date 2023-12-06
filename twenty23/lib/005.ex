@@ -19,7 +19,7 @@ defmodule Day005 do
     seed_ranges = parse_seeds(seeds) |> Enum.chunk_every(2) |> Enum.map(fn [start, len] -> (start..(start + len - 1)) end)
 
     Task.async_stream(seed_ranges, fn range ->
-      Enum.reduce(range, fn seed, acc -> is_retrieved_seed_lower(maps, seed, acc) end)
+      Enum.reduce(range, fn seed, acc -> lowest_seed(maps, seed, acc) end)
     end, timeout: :infinity) |> Stream.map(fn {_, val} -> val end) |> Enum.to_list() |> Enum.min()
   end
 
@@ -53,7 +53,7 @@ defmodule Day005 do
     end)
   end
 
-  defp is_retrieved_seed_lower(maps, seed, current) do
+  defp lowest_seed(maps, seed, current) do
     location = traverse_maps_for_seed(maps, seed)
     if location < current do location else current end
   end
