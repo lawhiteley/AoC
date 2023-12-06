@@ -1,15 +1,13 @@
 defmodule Day006 do
 
   def winning_strategies(races) do
-    races
-    |> String.split("\n") |> Enum.map(&String.split(&1, [":", " "], trim: true))
+    parse_races(races)
     |> Enum.map(fn [_ | values] -> values |> Enum.map(&String.to_integer/1) end)
     |> Enum.zip() |> Enum.map(&viable_strategy_count/1) |> Enum.product()
   end
 
   def long_race_winning_strategies(races) do
-    [time, distance] = races
-    |> String.split("\n") |> Enum.map(&String.split(&1, [":", " "], trim: true))
+    [time, distance] = parse_races(races)
     |> Enum.map(fn [_ | values] -> values |> Enum.join() |> String.to_integer() end)
     viable_strategy_count({time, distance})
   end
@@ -20,4 +18,6 @@ defmodule Day006 do
     min = (time - root) / 2
     trunc(:math.ceil(max) - :math.floor(min) - 1)
   end
+
+  defp parse_races(races) do races |> String.split("\n") |> Enum.map(&String.split(&1, [":", " "], trim: true)) end
 end
