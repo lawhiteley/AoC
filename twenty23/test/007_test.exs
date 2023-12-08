@@ -13,10 +13,10 @@ defmodule Day007Test do
   end
 
   test "day 7 example 2" do
-    assert Day007.score_bets(@example1, true) == 5905
+    assert Day007.score_bets(@example1, :two) == 5905
   end
 
   test "day 7 puzzle 2" do
-    assert Day007.score_bets(@data, true) == 248_029_057
+    assert Day007.score_bets(@data, :two) == 248_029_057
   end
 end
