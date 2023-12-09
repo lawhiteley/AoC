@@ -8,8 +8,7 @@ defmodule Day009 do
 
   defp predict_next_value(history, part) do
     history = Enum.map(history, &String.to_integer/1)
-    deltas = Enum.reverse(to_deltas(history))
-    extrapolate(deltas ++ [history], part)
+    extrapolate(Enum.reverse(to_deltas(history)) ++ [history], part)
   end
 
   defp to_deltas(values) do
