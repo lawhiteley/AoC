@@ -12,5 +12,5 @@ defmodule Day001 do
     end)
   end
 
-  defp convert_parentheses(directions) do  String.graphemes(directions) |> Enum.map(fn "(" -> 1; ")" -> -1 end) end
+  defp convert_parentheses(directions) do String.graphemes(directions) |> Enum.map(fn "(" -> 1; ")" -> -1 end) end
 end
