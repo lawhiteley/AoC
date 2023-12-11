@@ -8,13 +8,12 @@ defmodule Day009 do
 
   defp predict_next_value(history, part) do
     history = Enum.map(history, &String.to_integer/1)
-    extrapolate(Enum.reverse(to_deltas(history)) ++ [history], part)
+    extrapolate(to_deltas(history) ++ [history], part)
   end
 
   defp to_deltas(values) do
     deltas = values |> Enum.chunk_every(2, 1, :discard) |> Enum.map(fn [x, y] -> y - x end)
-
-    if Enum.all?(deltas, &(&1 == 0)) do [deltas] else [deltas] ++ to_deltas(deltas) end
+    if Enum.all?(deltas, &(&1 == 0)) do [deltas] else to_deltas(deltas) ++ [deltas] end
   end
 
   defp extrapolate(deltas, part) do
