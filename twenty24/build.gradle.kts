@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.23"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
 }
 
 group = "io.whiteley.luke"

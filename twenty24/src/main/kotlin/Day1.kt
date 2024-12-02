@@ -1,7 +1,6 @@
 import kotlin.math.abs
 
 object Day1 {
-
     fun calculateDistances(lines: List<String>): Int {
         val pairs = toPairs(lines)
 
@@ -19,7 +18,8 @@ object Day1 {
         return pairs.map { it.first() }.sumOf { it * (frequencies[it] ?: 0) }
     }
 
-    private fun toPairs(lines: List<String>) = lines.map { line ->
-        line.split("   ", ).map { Integer.parseInt(it) }
-    }
+    private fun toPairs(lines: List<String>) =
+        lines.map { line ->
+            line.split("   ").map { Integer.parseInt(it) }
+        }
 }
