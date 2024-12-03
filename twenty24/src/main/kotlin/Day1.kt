@@ -1,8 +1,10 @@
 import kotlin.math.abs
 
-object Day1 {
-    fun calculateDistances(lines: List<String>): Int {
-        val pairs = toPairs(lines)
+object Day1 : Day<Int>() {
+    override val number = "001"
+
+    override fun partOne(input: List<String>): Int {
+        val pairs = toPairs(input)
 
         val left = pairs.map { it.first() }.sorted()
         val right = pairs.map { it.last() }.sorted()
@@ -10,8 +12,8 @@ object Day1 {
         return left.zip(right).sumOf { (a, b) -> abs(b - a) }
     }
 
-    fun calculateSimilarities(lines: List<String>): Int {
-        val pairs = toPairs(lines)
+    override fun partTwo(input: List<String>): Int {
+        val pairs = toPairs(input)
 
         val frequencies = pairs.map { it.last() }.groupingBy { it }.eachCount()
 

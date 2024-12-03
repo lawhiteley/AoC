@@ -1,10 +1,12 @@
 import kotlin.math.abs
 
-object Day2 {
-    fun countSafeReports(lines: List<String>) = toReports(lines).count { it.levelsAreOrdered() && it.levelsAreSafe() }
+object Day2 : Day<Int>() {
+    override val number = "002"
 
-    fun countSafeReportsWithDampener(lines: List<String>) =
-        toReports(lines).count { report ->
+    override fun partOne(input: List<String>): Int = toReports(input).count { it.levelsAreOrdered() && it.levelsAreSafe() }
+
+    override fun partTwo(input: List<String>): Int =
+        toReports(input).count { report ->
             report.dampenedReports().any { it.levelsAreSafe() && it.levelsAreOrdered() }
         }
 
