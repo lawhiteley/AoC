@@ -1,4 +1,3 @@
-
 object Day3 : Day<Int>() {
     override val number = "003"
 
@@ -10,17 +9,18 @@ object Day3 : Day<Int>() {
             executeMultiplication(it.value)
         }.sum()
 
-    override fun partTwo(input: List<String>) = patternWithStartStop.findAll(input.joinToString { it })
-        .fold(Pair(false, mutableListOf<String>())) { (stopped, validCalls), item ->
-            with(item.value) {
-                when {
-                    this == "don't()" -> true to validCalls
-                    this == "do()" -> false to validCalls
-                    !stopped -> false to validCalls.apply { add(this@with) }
-                    else -> stopped to validCalls
+    override fun partTwo(input: List<String>) =
+        patternWithStartStop.findAll(input.joinToString { it })
+            .fold(Pair(false, mutableListOf<String>())) { (stopped, validCalls), item ->
+                with(item.value) {
+                    when {
+                        this == "don't()" -> true to validCalls
+                        this == "do()" -> false to validCalls
+                        !stopped -> false to validCalls.apply { add(this@with) }
+                        else -> stopped to validCalls
+                    }
                 }
-            }
-        }.second.sumOf { executeMultiplication(it) }
+            }.second.sumOf { executeMultiplication(it) }
 
     private fun executeMultiplication(functionCall: String): Int {
         val match = multiplyFunctionPattern.find(functionCall)
