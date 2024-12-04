@@ -10,6 +10,7 @@ class Solutions : FunSpec({
                 Day1 to Answers(e1 = 11, e2 = 31, p1 = 1938424, p2 = 22014209),
                 Day2 to Answers(e1 = 2, e2 = 4, p1 = 341, p2 = 404),
                 Day3 to Answers(e1 = 161, e2 = 48, p1 = 183380722, p2 = 82733683),
+                Day4 to Answers(e1 = 18, e2 = 9, p1 = 2654, p2 = 82733683),
             ),
         ) { (day, answers) ->
             this@context.context("Solutions for day ${day.number}") {
