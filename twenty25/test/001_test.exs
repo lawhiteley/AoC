@@ -12,7 +12,7 @@ defmodule Day001Test do
     assert Day001.count_zero_visits(@data) == 1165
   end
 
-  # test "day 1 puzzle 2" do
-  #   assert Day001.count_zero_visits(@data) == 7694
-  # end
+  test "day 1 puzzle 2" do
+    assert Day001.count_of_clicks(@data) == 6496
+  end
 end
