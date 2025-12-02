@@ -5,7 +5,8 @@ defmodule Day002 do
       string = Integer.to_string(id)
       {first, second} = String.split_at(string, div(String.length(string), 2))
       first == second
-    end) |> Enum.sum()
+    end)
+    |> Enum.sum()
   end
 
   def id_repeats_at_least_twice(ranges) do
@@ -19,6 +20,7 @@ defmodule Day002 do
     |> Enum.flat_map(fn range ->
       [first, last] = String.split(range, "-")
       String.to_integer(first)..String.to_integer(last)
-    end) |> Enum.to_list()
+    end)
+    |> Enum.to_list()
   end
 end
