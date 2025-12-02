@@ -10,7 +10,6 @@ defmodule Day002 do
 
   def id_repeats_at_least_twice(ranges) do
     to_range_list(ranges)
-    |> List.flatten()
     |> Enum.filter(fn id -> String.match?(Integer.to_string(id), ~r/^(.+?)\1+$/) end)
     |> Enum.sum()
   end
