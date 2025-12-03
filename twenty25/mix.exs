@@ -1,4 +1,4 @@
-defmodule Twenty22.MixProject do
+defmodule Twenty25.MixProject do
   use Mix.Project
 
   def project do
