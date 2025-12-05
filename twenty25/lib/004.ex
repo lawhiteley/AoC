@@ -12,22 +12,25 @@ defmodule Day004 do
   def count_possible_removals(grid, width \\ 10) do
     initial_grid = String.replace(grid, "\n", "") |> String.split("", trim: true) |> Enum.with_index()
 
-    traverse_removals(initial_grid, -1, 0, width)
+    traverse_removals(initial_grid, width)
   end
 
-  def traverse_removals(grid, changed, acc, width \\ 10)
-  def traverse_removals(_, 0, acc, _), do: acc
-  def traverse_removals(grid, _, acc, width) do
+  defp traverse_removals(grid, width, acc \\ 0) do
     to_replace = get_adjacent(grid, width) |> Enum.filter(fn {_, result} ->
       length(result) < 4
     end) |> Enum.map(&elem(&1, 0))
 
-    new_grid = grid |> Enum.map(fn {current, location} ->
-      if location in to_replace,
-      do: "X", else: current
-    end) |> Enum.with_index()
+    case to_replace do
+      [] -> acc
+      _ ->
+          new_grid = grid |> Enum.map(fn {current, location} ->
+            if location in to_replace,
+            do: "X", else: current
+          end) |> Enum.with_index()
 
-    traverse_removals(new_grid, length(to_replace), acc + length(to_replace), width)
+      traverse_removals(new_grid, width, acc + length(to_replace))
+
+    end
   end
 
   defp get_adjacent(grid, width) do

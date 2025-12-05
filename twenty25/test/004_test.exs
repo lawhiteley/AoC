@@ -12,6 +12,10 @@ defmodule Day004Test do
     assert Day004.count_of_accessible_rolls(@data, 140) == 1457
   end
 
+  test "day 4 puzzle 2 example" do
+    assert Day004.count_possible_removals(@example, 10) == 43
+  end
+
   @tag timeout: 120_000 # ┌( ͝° ͜ʖ͡°)=ε/̵͇̿̿/’̿’̿
   @tag :skip
   test "day 4 puzzle 2" do
