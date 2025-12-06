@@ -1,5 +1,4 @@
 defmodule Day005 do
-  require Logger
 
   def count_spoiled(ingredients) do
     [ranges, ingredients] =
@@ -44,7 +43,7 @@ defmodule Day005 do
     end)
   end
 
-  def string_to_range(string) do
+  defp string_to_range(string) do
     [first, last] = String.split(string, "-")
     String.to_integer(first)..String.to_integer(last)
   end
