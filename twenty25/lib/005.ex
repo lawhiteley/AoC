@@ -1,5 +1,4 @@
 defmodule Day005 do
-
   def count_spoiled(ingredients) do
     [ranges, ingredients] =
       ingredients

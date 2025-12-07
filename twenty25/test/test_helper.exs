@@ -18,7 +18,7 @@ defmodule TestHelper do
     contents = File.stream!(file_path)
 
     case trim_mode do
-      :full -> contents |> Enum.map(&(String.trim_trailing(&1, "\n")))
+      :full -> contents |> Enum.map(&String.trim_trailing(&1, "\n"))
       :trailing -> contents |> Enum.map(&String.trim_trailing/1)
       _ -> contents |> Enum.map(&String.trim/1)
     end

@@ -1,5 +1,4 @@
 defmodule Day004 do
-
   def count_of_accessible_rolls(grid, width \\ 10) do
     grid = String.replace(grid, "\n", "") |> String.split("", trim: true) |> Enum.with_index()
 
@@ -10,26 +9,33 @@ defmodule Day004 do
   end
 
   def count_possible_removals(grid, width \\ 10) do
-    initial_grid = String.replace(grid, "\n", "") |> String.split("", trim: true) |> Enum.with_index()
+    initial_grid =
+      String.replace(grid, "\n", "") |> String.split("", trim: true) |> Enum.with_index()
 
     traverse_removals(initial_grid, width)
   end
 
   defp traverse_removals(grid, width, acc \\ 0) do
-    to_replace = get_adjacent(grid, width) |> Enum.filter(fn {_, result} ->
-      length(result) < 4
-    end) |> Enum.map(&elem(&1, 0))
+    to_replace =
+      get_adjacent(grid, width)
+      |> Enum.filter(fn {_, result} ->
+        length(result) < 4
+      end)
+      |> Enum.map(&elem(&1, 0))
 
     case to_replace do
-      [] -> acc
+      [] ->
+        acc
+
       _ ->
-          new_grid = grid |> Enum.map(fn {current, location} ->
-            if location in to_replace,
-            do: "X", else: current
-          end) |> Enum.with_index()
+        new_grid =
+          grid
+          |> Enum.map(fn {current, location} ->
+            if location in to_replace, do: "X", else: current
+          end)
+          |> Enum.with_index()
 
-      traverse_removals(new_grid, width, acc + length(to_replace))
-
+        traverse_removals(new_grid, width, acc + length(to_replace))
     end
   end
 
