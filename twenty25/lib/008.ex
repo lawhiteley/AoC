@@ -52,41 +52,41 @@ defmodule Day008 do
 
     def new(), do: %__MODULE__{}
 
-    def find(%DisjointSet{} = dsu, key) do
-      case Map.fetch(dsu.parent, key) do
+    def find(%DisjointSet{} = ds, key) do
+      case Map.fetch(ds.parent, key) do
         {:ok, parent} ->
           if parent == key do
-            {dsu, key}
+            {ds, key}
           else
-            {dsu, root} = find(dsu, parent)
-            {%{dsu | parent: Map.put(dsu.parent, key, root)}, root}
+            {ds, root} = find(ds, parent)
+            {%{ds | parent: Map.put(ds.parent, key, root)}, root}
           end
 
         :error ->
-          dsu = %{dsu | parent: Map.put(dsu.parent, key, key), size: Map.put(dsu.size, key, 1)}
-          {dsu, key}
+          ds = %{ds | parent: Map.put(ds.parent, key, key), size: Map.put(ds.size, key, 1)}
+          {ds, key}
       end
     end
 
-    def union(dsu, a, b) do
-      {dsu, root_a} = find(dsu, a)
-      {dsu, root_b} = find(dsu, b)
+    def union(ds, a, b) do
+      {ds, root_a} = find(ds, a)
+      {ds, root_b} = find(ds, b)
 
       if root_a != root_b do
-        size_a = dsu.size[root_a]
-        size_b = dsu.size[root_b]
+        size_a = ds.size[root_a]
+        size_b = ds.size[root_b]
 
         if size_a < size_b do
-          parent = Map.put(dsu.parent, root_a, root_b)
-          size = Map.put(dsu.size, root_b, size_a + size_b)
-          %{dsu | parent: parent, size: size}
+          parent = Map.put(ds.parent, root_a, root_b)
+          size = Map.put(ds.size, root_b, size_a + size_b)
+          %{ds | parent: parent, size: size}
         else
-          parent = Map.put(dsu.parent, root_b, root_a)
-          size = Map.put(dsu.size, root_a, size_a + size_b)
-          %{dsu | parent: parent, size: size}
+          parent = Map.put(ds.parent, root_b, root_a)
+          size = Map.put(ds.size, root_a, size_a + size_b)
+          %{ds | parent: parent, size: size}
         end
       else
-        dsu
+        ds
       end
     end
 
