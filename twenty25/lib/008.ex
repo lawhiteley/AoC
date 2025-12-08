@@ -7,10 +7,11 @@ defmodule Day008 do
     |> Enum.sort_by(&elem(&1, 1))
     |> Enum.take(desired_connections)
     |> Enum.reduce(DisjointSet.new(), fn {[a, b], _}, acc ->
-      {_, updated} = DisjointSet.union(acc, a, b)
-      updated
+      elem(DisjointSet.union(acc, a, b), 1)
     end)
-    |> DisjointSet.top_n(3)
+    |> DisjointSet.sizes()
+    |> Enum.sort(:desc)
+    |> Enum.take(3)
     |> Enum.product()
   end
 
@@ -21,7 +22,7 @@ defmodule Day008 do
     |> Enum.reduce_while(DisjointSet.new(), fn {[a, b], _}, acc ->
       {_, updated} = DisjointSet.union(acc, a, b)
 
-      if hd(DisjointSet.sizes(updated)) == length(rows) do
+      if DisjointSet.sizes(updated) == [length(rows)] do
         {:halt, a.x * b.x}
       else
         {:cont, updated}
@@ -97,14 +98,8 @@ defmodule Day008 do
 
     def sizes(%DisjointSet{parent: parent, size: size}) do
       parent
-      |> Enum.filter(fn {key, value} -> key == value end)
-      |> Enum.map(fn {root, _} -> size[root] end)
-    end
-
-    def top_n(dsu, n) do
-      sizes(dsu)
-      |> Enum.sort(:desc)
-      |> Enum.take(n)
+      |> Enum.filter(&(elem(&1, 0) == elem(&1, 1)))
+      |> Enum.map(&size[elem(&1, 1)])
     end
   end
 end
