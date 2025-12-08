@@ -11,7 +11,7 @@ defmodule Day007 do
     start = :binary.match(hd(manifold), "S") |> elem(0)
 
     Enum.reduce(tl(manifold), {0, [{start, 1}]}, fn next, {splits, beams} ->
-      updated_splits = Enum.count(beams, fn {x, _} -> String.at(next, x) == "^" end)
+      updated_splits = Enum.count(beams, fn {b, _} -> String.at(next, b) == "^" end)
 
       updated_beams = process_row(next, beams)
 
