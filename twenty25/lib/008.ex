@@ -6,9 +6,7 @@ defmodule Day008 do
     |> Enum.map(fn [a, b] -> {[a, b], euclidian_distance(a, b)} end)
     |> Enum.sort_by(&elem(&1, 1))
     |> Enum.take(desired_connections)
-    |> Enum.reduce(DisjointSet.new(), fn {[a, b], _}, acc ->
-      elem(DisjointSet.union(acc, a, b), 1)
-    end)
+    |> Enum.reduce(DisjointSet.new(), fn {[a, b], _}, acc -> DisjointSet.union(acc, a, b) end)
     |> DisjointSet.sizes()
     |> Enum.sort(:desc)
     |> Enum.take(3)
@@ -20,7 +18,7 @@ defmodule Day008 do
     |> Enum.map(fn [a, b] -> {[a, b], euclidian_distance(a, b)} end)
     |> Enum.sort_by(&elem(&1, 1))
     |> Enum.reduce_while(DisjointSet.new(), fn {[a, b], _}, acc ->
-      {_, updated} = DisjointSet.union(acc, a, b)
+      updated = DisjointSet.union(acc, a, b)
 
       if DisjointSet.sizes(updated) == [length(rows)] do
         {:halt, a.x * b.x}
@@ -81,14 +79,14 @@ defmodule Day008 do
         if size_a < size_b do
           parent = Map.put(dsu.parent, root_a, root_b)
           size = Map.put(dsu.size, root_b, size_a + size_b)
-          {true, %{dsu | parent: parent, size: size}}
+          %{dsu | parent: parent, size: size}
         else
           parent = Map.put(dsu.parent, root_b, root_a)
           size = Map.put(dsu.size, root_a, size_a + size_b)
-          {true, %{dsu | parent: parent, size: size}}
+          %{dsu | parent: parent, size: size}
         end
       else
-        {false, dsu}
+        dsu
       end
     end
 
