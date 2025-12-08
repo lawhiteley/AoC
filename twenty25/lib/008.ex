@@ -2,17 +2,16 @@ defmodule Day008 do
   alias Day008.DisjointSet
 
   def three_largest_circuits(rows, desired_connections \\ 10) do
-    circuits =
-      combinations(2, parse_xyz(rows))
-      |> Enum.map(fn [a, b] -> {[a, b], euclidian_distance(a, b)} end)
-      |> Enum.sort_by(&elem(&1, 1))
-      |> Enum.take(desired_connections)
-      |> Enum.reduce(DisjointSet.new(), fn {[a, b], _}, acc ->
-        {_, updated} = DisjointSet.union(acc, a, b)
-        updated
-      end)
-
-    DisjointSet.top_n(circuits, 3) |> Enum.product()
+    combinations(2, parse_xyz(rows))
+    |> Enum.map(fn [a, b] -> {[a, b], euclidian_distance(a, b)} end)
+    |> Enum.sort_by(&elem(&1, 1))
+    |> Enum.take(desired_connections)
+    |> Enum.reduce(DisjointSet.new(), fn {[a, b], _}, acc ->
+      {_, updated} = DisjointSet.union(acc, a, b)
+      updated
+    end)
+    |> DisjointSet.top_n(3)
+    |> Enum.product()
   end
 
   def last_two_in_circuit(rows) do
@@ -22,8 +21,7 @@ defmodule Day008 do
     |> Enum.reduce_while(DisjointSet.new(), fn {[a, b], _}, acc ->
       {_, updated} = DisjointSet.union(acc, a, b)
 
-      if length(DisjointSet.sizes(updated)) == 1 and
-           hd(DisjointSet.sizes(updated)) == length(rows) do
+      if hd(DisjointSet.sizes(updated)) == length(rows) do
         {:halt, a.x * b.x}
       else
         {:cont, updated}
@@ -55,50 +53,45 @@ defmodule Day008 do
   end
 
   defmodule DisjointSet do
-    defstruct parent: %{}, size: %{}
+    defstruct parent: %{}, size: %{}, next_id: 0
 
     def new(), do: %__MODULE__{}
 
-    def find(%DisjointSet{} = DisjointSet, key) do
-      case Map.fetch(DisjointSet.parent(), key) do
+    def find(%DisjointSet{} = dsu, key) do
+      case Map.fetch(dsu.parent, key) do
         {:ok, parent} ->
           if parent == key do
-            {DisjointSet, key}
+            {dsu, key}
           else
-            {DisjointSet, root} = find(DisjointSet, parent)
-            {%{DisjointSet | parent: Map.put(DisjointSet.parent(), key, root)}, root}
+            {dsu, root} = find(dsu, parent)
+            {%{dsu | parent: Map.put(dsu.parent, key, root)}, root}
           end
 
         :error ->
-          DisjointSet = %{
-            DisjointSet
-            | parent: Map.put(DisjointSet.parent(), key, key),
-              size: Map.put(DisjointSet.size(), key, 1)
-          }
-
-          {DisjointSet, key}
+          dsu = %{dsu | parent: Map.put(dsu.parent, key, key), size: Map.put(dsu.size, key, 1)}
+          {dsu, key}
       end
     end
 
-    def union(DisjointSet, a, b) do
-      {DisjointSet, root_a} = find(DisjointSet, a)
-      {DisjointSet, root_b} = find(DisjointSet, b)
+    def union(dsu, a, b) do
+      {dsu, root_a} = find(dsu, a)
+      {dsu, root_b} = find(dsu, b)
 
       if root_a != root_b do
-        size_a = DisjointSet.size()[root_a]
-        size_b = DisjointSet.size()[root_b]
+        size_a = dsu.size[root_a]
+        size_b = dsu.size[root_b]
 
         if size_a < size_b do
-          parent = Map.put(DisjointSet.parent(), root_a, root_b)
-          size = Map.put(DisjointSet.size(), root_b, size_a + size_b)
-          {true, %{DisjointSet | parent: parent, size: size}}
+          parent = Map.put(dsu.parent, root_a, root_b)
+          size = Map.put(dsu.size, root_b, size_a + size_b)
+          {true, %{dsu | parent: parent, size: size}}
         else
-          parent = Map.put(DisjointSet.parent(), root_b, root_a)
-          size = Map.put(DisjointSet.size(), root_a, size_a + size_b)
-          {true, %{DisjointSet | parent: parent, size: size}}
+          parent = Map.put(dsu.parent, root_b, root_a)
+          size = Map.put(dsu.size, root_a, size_a + size_b)
+          {true, %{dsu | parent: parent, size: size}}
         end
       else
-        {false, DisjointSet}
+        {false, dsu}
       end
     end
 
@@ -108,8 +101,8 @@ defmodule Day008 do
       |> Enum.map(fn {root, _} -> size[root] end)
     end
 
-    def top_n(DisjointSet, n) do
-      sizes(DisjointSet)
+    def top_n(dsu, n) do
+      sizes(dsu)
       |> Enum.sort(:desc)
       |> Enum.take(n)
     end
