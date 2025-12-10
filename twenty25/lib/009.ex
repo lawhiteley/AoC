@@ -3,23 +3,6 @@ defmodule Day009 do
     elem(hd(calculate_areas(tiles)), 2)
   end
 
-  defp calculate_areas(tiles) do
-    Enum.map(tiles, fn point -> Enum.map(String.split(point, ","), &String.to_integer/1) end)
-    |> combinations(2)
-    |> Enum.map(fn [[x1, y1], [x2, y2]] ->
-      {[x1, y1], [x2, y2], get_area({x1, y1}, {x2, y2})}
-    end)
-    |> Enum.sort_by(fn {_, _, area} -> area end, :desc)
-  end
-
-  # From https://rosettacode.org/wiki/Combinations#Elixir
-  def combinations(_, 0), do: [[]]
-  def combinations([], _), do: []
-
-  def combinations([h | t], m) do
-    for(l <- combinations(t, m - 1), do: [h | l]) ++ combinations(t, m)
-  end
-
   # https://en.wikipedia.org/wiki/Minimum_bounding_box#Axis-aligned_minimum_bounding_box
   def largest_red_and_green_rectangle(tiles) do
     polygon =
@@ -53,12 +36,30 @@ defmodule Day009 do
     Enum.find_value(sizes, fn {area, {x1, y1}, {x2, y2}} ->
       {y1, y2} = if y1 > y2, do: {y2, y1}, else: {y1, y2}
 
-      fully_contained? = Enum.all?(edges, fn {{x3, y3}, {x4, y4}} ->
-        not (x4 > x1 and x3 < x2 and y4 > y1 and y3 < y2)
-      end)
+      fully_contained? =
+        Enum.all?(edges, fn {{x3, y3}, {x4, y4}} ->
+          not (x4 > x1 and x3 < x2 and y4 > y1 and y3 < y2)
+        end)
 
       if fully_contained?, do: area
     end)
+  end
+
+  defp calculate_areas(tiles) do
+    Enum.map(tiles, fn point -> Enum.map(String.split(point, ","), &String.to_integer/1) end)
+    |> combinations(2)
+    |> Enum.map(fn [[x1, y1], [x2, y2]] ->
+      {[x1, y1], [x2, y2], get_area({x1, y1}, {x2, y2})}
+    end)
+    |> Enum.sort_by(fn {_, _, area} -> area end, :desc)
+  end
+
+  # From https://rosettacode.org/wiki/Combinations#Elixir
+  defp combinations(_, 0), do: [[]]
+  defp combinations([], _), do: []
+
+  defp combinations([h | t], m) do
+    for(l <- combinations(t, m - 1), do: [h | l]) ++ combinations(t, m)
   end
 
   defp get_area({x1, y1}, {x2, y2}) do
