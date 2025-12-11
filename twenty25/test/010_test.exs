@@ -11,8 +11,4 @@ defmodule Day010Test do
   test "day 10 puzzle 1" do
     assert Day010.fewest_presses(@data) == 444
   end
-
-  # test "day 10 puzzle 2" do
-  #   assert Day010.largest_red_and_green_rectangle(@data) == 1_552_1310_370
-  # end
 end

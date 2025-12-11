@@ -1,0 +1,4 @@
+%{
+  "dantzig": {:hex, :dantzig, "0.1.0", "43043385dac61c8939f3b5e8ca631bf83d6a1fb86992dbc7b2935ce2fe0ef822", [:mix], [{:nimble_parsec, "~> 1.0", [hex: :nimble_parsec, repo: "hexpm", optional: false]}], "hexpm", "3b3cbec155218303bab7c22b5d676c43f272cb27bf8db0c52bb02f837bc05b1d"},
+  "nimble_parsec": {:hex, :nimble_parsec, "1.4.2", "8efba0122db06df95bfaa78f791344a89352ba04baedd3849593bfce4d0dc1c6", [:mix], [], "hexpm", "4b21398942dda052b403bbe1da991ccd03a053668d147d53fb8c4e0efe09c973"},
+}

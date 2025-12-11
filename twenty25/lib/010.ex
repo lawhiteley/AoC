@@ -3,7 +3,11 @@ defmodule Day010 do
     Enum.map(schematics, fn schematic ->
       [diagram | buttons] = String.split(schematic, " ", trim: true)
       buttons = Enum.slice(buttons, 0, length(buttons) - 1)
-      lights = String.slice(diagram, 1, String.length(diagram) - 1) |> String.graphemes() |> Enum.map(&(&1 == "#"))
+
+      lights =
+        String.slice(diagram, 1, String.length(diagram) - 1)
+        |> String.graphemes()
+        |> Enum.map(&(&1 == "#"))
 
       powerset(buttons)
       |> Stream.flat_map(fn combination ->
