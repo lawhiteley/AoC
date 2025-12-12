@@ -33,7 +33,6 @@ defmodule Day010 do
     String.trim_trailing(rest, ")") |> String.split(",") |> Enum.map(&String.to_integer/1)
   end
 
-  def powerset(enumerable) when is_list(enumerable), do: generate(enumerable)
   def powerset(enumerable), do: generate(Enum.to_list(enumerable))
 
   defp generate([]), do: []
